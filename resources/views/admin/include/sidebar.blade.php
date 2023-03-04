@@ -8,10 +8,26 @@
                  with font-awesome or any other icon font library -->
 
             <li class="nav-item">
+                <a href="{{ route('admin.post.index') }}" class="nav-link">
+                    <i class="nav-icon far fa-clipboard"></i>
+                    <p>
+                        Пости
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('admin.category.index') }}" class="nav-link">
                     <i class="nav-icon fa-light fa-list"></i>
                     <p>
                         Категорії
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.tag.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-tags"></i>
+                    <p>
+                        Тегі
                     </p>
                 </a>
             </li>
