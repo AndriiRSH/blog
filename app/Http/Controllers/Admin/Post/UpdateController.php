@@ -11,6 +11,8 @@ class UpdateController extends Controller
 {
     public function __invoke(UpdateRequest $request, Post $post)
     {
+        // якщо хочемо, дати можливість додання поста без тегів
+        //$post->tags()->sync((isset($data['tag_ids']))? $data['tag_ids'] : []);
         $data = $request->validated();
         $post->update($data);
         return view('admin.post.show', compact('post'));
