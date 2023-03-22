@@ -8,30 +8,37 @@ use App\Http\Controllers\Admin\Main\AdminController;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Post\PostController;
+use App\Http\Controllers\Admin\User\UserController;
 
 use App\Http\Controllers\Admin\Category\CreateController as CreateCategory;
 use App\Http\Controllers\Admin\Tag\CreateController as CreateTag;
 use App\Http\Controllers\Admin\Post\CreateController as CreatePost;
+use App\Http\Controllers\Admin\User\CreateController as CreateUsers;
 
 use App\Http\Controllers\Admin\Category\ShowController as ShowCategory;
 use App\Http\Controllers\Admin\Tag\ShowController as ShowTag;
 use App\Http\Controllers\Admin\Post\ShowController as ShowPost;
+use App\Http\Controllers\Admin\User\ShowController as ShowUsers;
 
 use App\Http\Controllers\Admin\Category\StoreController as StoreCategory;
 use App\Http\Controllers\Admin\Tag\StoreController as StoreTag;
 use App\Http\Controllers\Admin\Post\StoreController as StorePost;
+use App\Http\Controllers\Admin\User\StoreController as StoreUsers;
 
 use App\Http\Controllers\Admin\Category\EditController as EditCategory;
 use App\Http\Controllers\Admin\Tag\EditController as EditTag;
 use App\Http\Controllers\Admin\Post\EditController as EditPost;
+use App\Http\Controllers\Admin\User\EditController as EditUsers;
 
 use App\Http\Controllers\Admin\Category\UpdateController as UpdateCategory;
 use App\Http\Controllers\Admin\Tag\UpdateController as UpdateTag;
 use App\Http\Controllers\Admin\Post\UpdateController as UpdatePost;
+use App\Http\Controllers\Admin\User\UpdateController as UpdateUsers;
 
 use App\Http\Controllers\Admin\Category\DeleteController as DeleteCategory;
 use App\Http\Controllers\Admin\Tag\DeleteController as DeleteTag;
 use App\Http\Controllers\Admin\Post\DeleteController as DeletePost;
+use App\Http\Controllers\Admin\User\DeleteController as DeleteUsers;
 
 
 
@@ -84,6 +91,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin','prefix' => 'admin'], 
         Route::get('/{tag}/edit', EditTag::class)->name('admin.tag.edit');
         Route::patch('/{tag}', UpdateTag::class)->name('admin.tag.update');
         Route::delete('/{tag}', DeleteTag::class)->name('admin.tag.delete');
+    });
+
+    Route::group(['namespace' => 'User', 'prefix' => 'users'], function (){
+        Route::get('/', UserController::class)->name('admin.user.index');
+        Route::get('/create', CreateUsers::class)->name('admin.user.create');
+        Route::post('/', StoreUsers::class)->name('admin.user.store');
+        Route::get('/{user}', ShowUsers::class)->name('admin.user.show');
+        Route::get('/{user}/edit', EditUsers::class)->name('admin.user.edit');
+        Route::patch('/{user}', UpdateUsers::class)->name('admin.user.update');
+        Route::delete('/{user}', DeleteUsers::class)->name('admin.user.delete');
     });
 });
 
