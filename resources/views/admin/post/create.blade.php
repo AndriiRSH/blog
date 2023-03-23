@@ -84,7 +84,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group w-50">
                             <label>Теги</label>
                             <select class="select2" name="tag_ids[]" multiple="multiple" data-placeholder="Виберіть теги" style="width: 100%;">
                                 @foreach($tags as $tag)
