@@ -20,8 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function getRoles(){
         return [
-          self::ROLE_ADMIN => 'Адмін',
           self::ROLE_READER => 'Користувач',
+          self::ROLE_ADMIN => 'Адмін',
         ];
     }
 
@@ -59,5 +59,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new SendVerifyWithQueueNotification());
+    }
+
+    public function likedPosts(){
+        return $this->belongsToMany(Post::class, 'post_user_likes', 'user_id', 'post_id');
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 }

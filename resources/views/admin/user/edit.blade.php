@@ -10,8 +10,9 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Головна</a></li>
+                        <li class="breadcrumb-item active"><a href="{{ route('admin.user.index') }}">Користувачі</a></li>
+                        <li class="breadcrumb-item active">Зміна користувача</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -45,7 +46,7 @@
                             <select name="role" class="form-control">
                                 @foreach($roles as $id => $role)
                                     <option value="{{ $id }}"
-                                        {{ $id == $user->role ? ' selected' : '' }}
+                                        {{ $id == old($user->role) ? ' selected' : '' }}
                                     >{{ $role }}</option>
                                 @endforeach
                             </select>
