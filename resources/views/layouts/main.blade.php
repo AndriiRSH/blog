@@ -26,6 +26,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('main.index') }}">Блог</a>
                     </li>
+                    <li class="nav-item">
+                        @auth()
+                            <a class="nav-link" href="{{ route('personal.main.index') }}">Особистий кабінет</a>
+{{--                            Додати кнопку виходу--}}
+                        @endauth
+                        @guest()
+                            <a class="nav-link" href="{{ route('personal.main.index') }}">Вхід</a>
+                        @endguest
+                    </li>
                 </ul>
             </div>
         </nav>

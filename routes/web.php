@@ -6,9 +6,11 @@ use App\Http\Controllers\Main\IndexController;
 use App\Http\Controllers\Post\ManyPostController;
 use App\Http\Controllers\Post\SinglePostController;
 use App\Http\Controllers\Admin\Main\AdminController;
+
 use App\Http\Controllers\Personal\Main\PersonalController;
 use App\Http\Controllers\Personal\Liked\LikedController;
 use App\Http\Controllers\Personal\Comment\CommentController;
+use App\Http\Controllers\Post\Comment\StoreController as StoreComments;
 
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Tag\TagController;
@@ -70,6 +72,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Main'], function (){
 Route::group(['namespace' => 'App\Http\Controllers\Post', 'prefix' => 'posts'], function (){
     Route::get('/', ManyPostController::class)->name('post.index');
     Route::get('/{post}', SinglePostController::class)->name('post.show');
+
+    Route::group(['namespace' => 'Comment', 'prefix' => '{post}/comments'], function (){
+        Route::post('/', StoreComments::class)->name('post.comment.store');
+    });
 });
 
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
