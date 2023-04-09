@@ -3,7 +3,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\IndexController;
+use App\Http\Controllers\Category\IndexController as IndexCategory;
 use App\Http\Controllers\Post\ManyPostController;
+use App\Http\Controllers\Category\Post\ManyPostController as StorePosts;
 use App\Http\Controllers\Post\SinglePostController;
 use App\Http\Controllers\Admin\Main\AdminController;
 
@@ -11,6 +13,7 @@ use App\Http\Controllers\Personal\Main\PersonalController;
 use App\Http\Controllers\Personal\Liked\LikedController;
 use App\Http\Controllers\Personal\Comment\CommentController;
 use App\Http\Controllers\Post\Comment\StoreController as StoreComments;
+use App\Http\Controllers\Post\Like\StoreController as StoreLikes;
 
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Tag\TagController;
@@ -75,6 +78,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Post', 'prefix' => 'posts'], 
 
     Route::group(['namespace' => 'Comment', 'prefix' => '{post}/comments'], function (){
         Route::post('/', StoreComments::class)->name('post.comment.store');
+    });
+
+    Route::group(['namespace' => 'Like', 'prefix' => '{post}/likes'], function (){
+        Route::post('/', StoreLikes::class)->name('post.like.store');
+    });
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Category', 'prefix' => 'categories'], function (){
+    Route::get('/', IndexCategory::class)->name('category.index');
+
+    Route::group(['namespace' => 'Post', 'prefix' => '{category}/posts'], function (){
+        Route::get('/', StorePosts::class)->name('category.post.index');
     });
 });
 

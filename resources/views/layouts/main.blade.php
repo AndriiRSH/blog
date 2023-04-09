@@ -27,6 +27,9 @@
                         <a class="nav-link" href="{{ route('main.index') }}">Блог</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('category.index') }}">Категорії</a>
+                    </li>
+                    <li class="nav-item">
                         @auth()
                             <a class="nav-link" href="{{ route('personal.main.index') }}">Особистий кабінет</a>
 {{--                            Додати кнопку виходу--}}
