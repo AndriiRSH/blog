@@ -31,6 +31,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('main.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-home"></i>
+                    <p>
+                        Блог
+                    </p>
+                </a>
+            </li>
 
         </ul>
     </div>

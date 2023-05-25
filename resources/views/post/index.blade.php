@@ -76,8 +76,14 @@
                     </ul>
                 </div>
                 <div class="widget">
-                    <h5 class="widget-title">Categories</h5>
-                    <img src="{{ asset('assets/images/blog_widget_categories.jpg') }}" alt="categories" class="w-100">
+                    <h5 class="widget-title">Категорії</h5>
+                    <section class="featured-posts-section">
+                        <ul>
+                            @foreach($categories as $category)
+                                <li><a href="{{ route('category.post.index', $category->id) }}">{{ $category->title }}</a></li>
+                            @endforeach
+                        </ul>
+                    </section>
                 </div>
             </div>
         </div>

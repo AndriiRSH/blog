@@ -40,11 +40,6 @@
                             <a class="nav-link" href="{{ route('personal.main.index') }}">Вхід</a>
                         @endguest
                     </li>
-{{--                    <li class="nav-item">--}}
-{{--                    @foreach($categories as $category)--}}
-{{--                        <a href="{{ route('category.post.index', $category->id) }}">{{ $category->title }}</a>--}}
-{{--                        @endforeach--}}
-{{--                    </li>--}}
                 </ul>
             </div>
         </nav>
