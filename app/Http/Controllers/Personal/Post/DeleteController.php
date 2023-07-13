@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Post;
+namespace App\Http\Controllers\Personal\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\UpdateRequest;
@@ -12,6 +12,6 @@ class DeleteController extends BaseController
     public function __invoke(Post $post)
     {
         $post->delete();
-        return redirect()->route('admin.post.index');
+        return redirect()->route('personal.post.index');
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('personal.layouts.main')
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -10,8 +10,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Головна</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('admin.post.index') }}">Пости</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('personal.main.index') }}">Головна</a></li>
+                        <li class="breadcrumb-item active"><a href="{{ route('personal.post.index') }}">Пости</a></li>
                         <li class="breadcrumb-item active">Додавання поста</li>
                     </ol>
                 </div><!-- /.col -->
@@ -26,7 +26,7 @@
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 <div class="col-12">
-                    <form action="{{ route('admin.post.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('personal.post.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group w-25">
                             <input type="text" class="form-control" name="title" placeholder="Назва Поста"

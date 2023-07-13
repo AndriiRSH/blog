@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,12 +19,9 @@ class PostService
                 $tagIds = [];
             }
 
-            //шлях до картинок в бд зі збереженням клучів
             $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
             $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
-
-            // якщо хочемо, дати можливість додання поста без тегів
-            //$post->tags()->sync((isset($data['tag_ids']))? $data['tag_ids'] : []);
+            $data['user_id'] = Auth::id();
             $post = Post::firstOrCreate($data);
             if (isset($tagIds)) {
                 $post->tags()->attach($tagIds);
@@ -44,7 +42,7 @@ class PostService
             } else {
                 $tagIds = [];
             }
-            //шлях до картинок в бд зі збереженням ключів
+
             if (array_key_exists('preview_image', $data)) {
                 $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
             }
@@ -52,9 +50,6 @@ class PostService
                 $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
             }
             $post->update($data);
-            // якщо хочемо, дати можливість додання поста без тегів
-            //$post->tags()->sync((isset($data['tag_ids']))? $data['tag_ids'] : []);
-            // sync - видаляє всі привязки які в нас є і добавляє тільки ті які ми вказали
             if (isset($tagIds)) {
                 $post->tags()->sync($tagIds);
             }

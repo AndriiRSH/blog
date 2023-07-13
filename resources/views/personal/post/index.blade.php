@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('personal.layouts.main')
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -10,7 +10,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Головна</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('personal.main.index') }}">Головна</a></li>
                         <li class="breadcrumb-item active">Пости</li>
                     </ol>
                 </div><!-- /.col -->
@@ -25,7 +25,7 @@
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 <div class="col-1 mb-3">
-                    <a href="{{ route('admin.post.create') }}" class="btn btn-block btn-primary">Додати</a>
+                    <a href="{{ route('personal.post.create') }}" class="btn btn-block btn-primary">Додати</a>
                 </div>
             </div>
             <div class="row">
@@ -46,10 +46,10 @@
                                     <tr>
                                         <td>{{ $post->id }}</td>
                                         <td>{{ $post->title }}</td>
-                                        <td class="text-center"><a href="{{ route('admin.post.show', $post->id) }}"><i class="far fa-eye"></i></a></td>
-                                        <td class="text-center"><a href="{{ route('admin.post.edit', $post->id) }}" class="text-success"><i class="fas fa-pencil-alt"></i></a></td>
+                                        <td class="text-center"><a href="{{ route('personal.post.show', $post->id) }}"><i class="far fa-eye"></i></a></td>
+                                        <td class="text-center"><a href="{{ route('personal.post.edit', $post->id) }}" class="text-success"><i class="fas fa-pencil-alt"></i></a></td>
                                         <td class="text-center">
-                                            <form action="{{ route('admin.post.delete', $post->id) }}"
+                                            <form action="{{ route('personal.post.delete', $post->id) }}"
                                                   method="post">
                                                 @csrf
                                                 @method('delete')

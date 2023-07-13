@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Post;
+namespace App\Http\Controllers\Personal\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Post\UpdateRequest;
@@ -17,6 +17,6 @@ class UpdateController extends BaseController
         $post = $this->service->update($data, $post);
 
 
-        return view('admin.post.show', compact('post'));
+        return view('personal.post.show', compact('post'));
     }
 }

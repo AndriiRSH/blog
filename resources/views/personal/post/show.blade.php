@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('personal.layouts.main')
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -7,8 +7,8 @@
             <div class="row mb-2">
                 <div class="col-sm-6 d-flex align-items-center">
                     <h1 class="m-0 mr-2">{{ $post->title }}</h1>
-                    <a href="{{ route('admin.post.edit', $post->id) }}" class="text-success"><i class="fas fa-pencil-alt"></i></a>
-                    <form action="{{ route('admin.post.delete', $post->id) }}"
+                    <a href="{{ route('personal.post.edit', $post->id) }}" class="text-success"><i class="fas fa-pencil-alt"></i></a>
+                    <form action="{{ route('personal.post.delete', $post->id) }}"
                           method="post">
                         @csrf
                         @method('delete')
@@ -19,8 +19,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Головна</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('admin.post.index') }}">Пости</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('personal.main.index') }}">Головна</a></li>
+                        <li class="breadcrumb-item active"><a href="{{ route('ersonal.post.index') }}">Пости</a></li>
                         <li class="breadcrumb-item active">{{ $post->title }}</li>
                     </ol>
                 </div><!-- /.col -->

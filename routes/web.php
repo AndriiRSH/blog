@@ -18,38 +18,45 @@ use App\Http\Controllers\Post\Like\StoreController as StoreLikes;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Tag\TagController;
 use App\Http\Controllers\Admin\Post\PostController;
+use App\Http\Controllers\Personal\Post\PostController as PersonalPostController;
 use App\Http\Controllers\Admin\User\UserController;
 
 use App\Http\Controllers\Admin\Category\CreateController as CreateCategory;
 use App\Http\Controllers\Admin\Tag\CreateController as CreateTag;
 use App\Http\Controllers\Admin\Post\CreateController as CreatePost;
+use App\Http\Controllers\Personal\Post\CreateController as PersonalCreatePost;
 use App\Http\Controllers\Admin\User\CreateController as CreateUsers;
 
 use App\Http\Controllers\Admin\Category\ShowController as ShowCategory;
 use App\Http\Controllers\Admin\Tag\ShowController as ShowTag;
 use App\Http\Controllers\Admin\Post\ShowController as ShowPost;
+use App\Http\Controllers\Personal\Post\ShowController as PersonalShowPost;
 use App\Http\Controllers\Admin\User\ShowController as ShowUsers;
 
 use App\Http\Controllers\Admin\Category\StoreController as StoreCategory;
 use App\Http\Controllers\Admin\Tag\StoreController as StoreTag;
 use App\Http\Controllers\Admin\Post\StoreController as StorePost;
+use App\Http\Controllers\Personal\Post\StoreController as PersonalStorePost;
 use App\Http\Controllers\Admin\User\StoreController as StoreUsers;
 
 use App\Http\Controllers\Admin\Category\EditController as EditCategory;
 use App\Http\Controllers\Admin\Tag\EditController as EditTag;
 use App\Http\Controllers\Admin\Post\EditController as EditPost;
+use App\Http\Controllers\Personal\Post\EditController as PersonalEditPost;
 use App\Http\Controllers\Admin\User\EditController as EditUsers;
 use App\Http\Controllers\Personal\Comment\EditController as EditComment;
 
 use App\Http\Controllers\Admin\Category\UpdateController as UpdateCategory;
 use App\Http\Controllers\Admin\Tag\UpdateController as UpdateTag;
 use App\Http\Controllers\Admin\Post\UpdateController as UpdatePost;
+use App\Http\Controllers\Personal\Post\UpdateController as PersonalUpdatePost;
 use App\Http\Controllers\Admin\User\UpdateController as UpdateUsers;
 use App\Http\Controllers\Personal\Comment\UpdateController as UpdateComment;
 
 use App\Http\Controllers\Admin\Category\DeleteController as DeleteCategory;
 use App\Http\Controllers\Admin\Tag\DeleteController as DeleteTag;
 use App\Http\Controllers\Admin\Post\DeleteController as DeletePost;
+use App\Http\Controllers\Personal\Post\DeleteController as PersonalDeletePost;
 use App\Http\Controllers\Admin\User\DeleteController as DeleteUsers;
 use App\Http\Controllers\Personal\Liked\DeleteController as DeleteLiked;
 use App\Http\Controllers\Personal\Comment\DeleteController as DeleteComment;
@@ -93,7 +100,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Category', 'prefix' => 'categ
     });
 });
 
-Route::middleware(['auth', 'admin', 'verified'])->group(function () {
+Route::middleware(['auth', 'admin',])->group(function () {
     Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function () {
         Route::group(['namespace' => 'Main'], function () {
             Route::get('/', AdminController::class)->name('admin.main.index');
@@ -141,7 +148,7 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth',])->group(function () {
     Route::group(['namespace' => 'App\Http\Controllers\Personal','prefix' => 'personal'], function () {
         Route::group(['namespace' => 'Main', 'prefix' => 'main'], function () {
             Route::get('/', PersonalController::class)->name('personal.main.index');
@@ -155,6 +162,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{comment}/edit', EditComment::class)->name('personal.comment.edit');
             Route::patch('/{comment}', UpdateComment::class)->name('personal.comment.update');
             Route::delete('/{comment}', DeleteComment::class)->name('personal.comment.delete');
+        });
+
+        Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
+            Route::get('/', PersonalPostController::class)->name('personal.post.index');
+            Route::get('/create', PersonalCreatePost::class)->name('personal.post.create');
+            Route::post('/', PersonalStorePost::class)->name('personal.post.store');
+            Route::get('/{post}', PersonalShowPost::class)->name('personal.post.show');
+            Route::get('/{post}/edit', PersonalEditPost::class)->name('personal.post.edit');
+            Route::patch('/{post}', PersonalUpdatePost::class)->name('personal.post.update');
+            Route::delete('/{post}', PersonalDeletePost::class)->name('personal.post.delete');
         });
     });
 });
