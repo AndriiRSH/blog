@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\Locale\LocaleController;
+use App\Http\Controllers\OpenAI\OpenAIController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\IndexController;
 use App\Http\Controllers\Category\IndexController as IndexCategory;
@@ -75,30 +77,66 @@ use App\Http\Controllers\Personal\Comment\DeleteController as DeleteComment;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Main'], function (){
-    Route::get('/', IndexController::class)->name('main.index');
-});
+Route::middleware(['set_locale'])->group(function (){
+    Route::middleware(['auth',])->group(function () {
+        Route::group(['namespace' => 'App\Http\Controllers\Personal','prefix' => 'personal'], function () {
+            Route::group(['namespace' => 'Main', 'prefix' => 'main'], function () {
+                Route::get('/', PersonalController::class)->name('personal.main.index');
+            });
+            Route::group(['namespace' => 'Liked', 'prefix' => 'liked'], function () {
+                Route::get('/', LikedController::class)->name('personal.liked.index');
+                Route::delete('/{post}', DeleteLiked::class)->name('personal.liked.delete');
+            });
+            Route::group(['namespace' => 'Comment', 'prefix' => 'comments'], function () {
+                Route::get('/', CommentController::class)->name('personal.comment.index');
+                Route::get('/{comment}/edit', EditComment::class)->name('personal.comment.edit');
+                Route::patch('/{comment}', UpdateComment::class)->name('personal.comment.update');
+                Route::delete('/{comment}', DeleteComment::class)->name('personal.comment.delete');
+            });
 
-Route::group(['namespace' => 'App\Http\Controllers\Post', 'prefix' => 'posts'], function (){
-    Route::get('/', ManyPostController::class)->name('post.index');
-    Route::get('/{post}', SinglePostController::class)->name('post.show');
+            Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
+                Route::get('/', PersonalPostController::class)->name('personal.post.index');
+                Route::get('/create', PersonalCreatePost::class)->name('personal.post.create');
+                Route::post('/', PersonalStorePost::class)->name('personal.post.store');
+                Route::get('/{post}', PersonalShowPost::class)->name('personal.post.show');
+                Route::get('/{post}/edit', PersonalEditPost::class)->name('personal.post.edit');
+                Route::patch('/{post}', PersonalUpdatePost::class)->name('personal.post.update');
+                Route::delete('/{post}', PersonalDeletePost::class)->name('personal.post.delete');
+            });
+        });
+    });
+    Route::group(['namespace' => 'App\Http\Controllers\Post', 'prefix' => 'posts'], function (){
+        Route::get('/', ManyPostController::class)->name('post.index');
+        Route::get('/{post}', SinglePostController::class)->name('post.show');
 
-    Route::group(['namespace' => 'Comment', 'prefix' => '{post}/comments'], function (){
-        Route::post('/', StoreComments::class)->name('post.comment.store');
+        Route::group(['namespace' => 'Comment', 'prefix' => '{post}/comments'], function (){
+            Route::post('/', StoreComments::class)->name('post.comment.store');
+        });
+
+        Route::group(['namespace' => 'Like', 'prefix' => '{post}/likes'], function (){
+            Route::post('/', StoreLikes::class)->name('post.like.store');
+        });
     });
 
-    Route::group(['namespace' => 'Like', 'prefix' => '{post}/likes'], function (){
-        Route::post('/', StoreLikes::class)->name('post.like.store');
+    Route::group(['namespace' => 'App\Http\Controllers\Category', 'prefix' => 'categories'], function (){
+        Route::get('/', IndexCategory::class)->name('category.index');
+
+        Route::group(['namespace' => 'Post', 'prefix' => '{category}/posts'], function (){
+            Route::get('/', StorePosts::class)->name('category.post.index');
+        });
+    });
+    Route::group(['namespace' => 'App\Http\Controllers\Main'], function (){
+        Route::get('/', IndexController::class)->name('main.index');
+    });
+
+    Route::group(['namespace' => 'App\Http\Controller\OpenAI'], function (){
+        Route::get('/openai', [OpenAIController::class, 'index'])->name('openai.index');
+        Route::post('/openai', [OpenAIController::class, 'store'])->name('openai.index');
+        Route::get('/reset', [OpenAIController::class, 'destroy'])->name('openai.reset');
     });
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Category', 'prefix' => 'categories'], function (){
-    Route::get('/', IndexCategory::class)->name('category.index');
-
-    Route::group(['namespace' => 'Post', 'prefix' => '{category}/posts'], function (){
-        Route::get('/', StorePosts::class)->name('category.post.index');
-    });
-});
+Route::get('locale/{locale}', LocaleController::class)->name('locale');
 
 Route::middleware(['auth', 'admin',])->group(function () {
     Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function () {
@@ -147,34 +185,5 @@ Route::middleware(['auth', 'admin',])->group(function () {
         });
     });
 });
-
-Route::middleware(['auth',])->group(function () {
-    Route::group(['namespace' => 'App\Http\Controllers\Personal','prefix' => 'personal'], function () {
-        Route::group(['namespace' => 'Main', 'prefix' => 'main'], function () {
-            Route::get('/', PersonalController::class)->name('personal.main.index');
-        });
-        Route::group(['namespace' => 'Liked', 'prefix' => 'liked'], function () {
-            Route::get('/', LikedController::class)->name('personal.liked.index');
-            Route::delete('/{post}', DeleteLiked::class)->name('personal.liked.delete');
-        });
-        Route::group(['namespace' => 'Comment', 'prefix' => 'comments'], function () {
-            Route::get('/', CommentController::class)->name('personal.comment.index');
-            Route::get('/{comment}/edit', EditComment::class)->name('personal.comment.edit');
-            Route::patch('/{comment}', UpdateComment::class)->name('personal.comment.update');
-            Route::delete('/{comment}', DeleteComment::class)->name('personal.comment.delete');
-        });
-
-        Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
-            Route::get('/', PersonalPostController::class)->name('personal.post.index');
-            Route::get('/create', PersonalCreatePost::class)->name('personal.post.create');
-            Route::post('/', PersonalStorePost::class)->name('personal.post.store');
-            Route::get('/{post}', PersonalShowPost::class)->name('personal.post.show');
-            Route::get('/{post}/edit', PersonalEditPost::class)->name('personal.post.edit');
-            Route::patch('/{post}', PersonalUpdatePost::class)->name('personal.post.update');
-            Route::delete('/{post}', PersonalDeletePost::class)->name('personal.post.delete');
-        });
-    });
-});
-
 
 Auth::routes(['verify' => true]);

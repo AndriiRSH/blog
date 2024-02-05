@@ -3,7 +3,7 @@
 @section('content')
 <main class="blog">
     <div class="container">
-        <h1 class="edica-page-title" data-aos="fade-up">Блог</h1>
+        <h1 class="edica-page-title" data-aos="fade-up">@lang('main.blog')</h1>
         <section class="featured-posts-section">
             <div class="row">
                 @foreach($posts as $post)
@@ -86,6 +86,7 @@
                     </section>
                 </div>
             </div>
+            <a href="{{ route('openai.index') }}" style="font-size: 30px; color: white">Погано розкрили тему? Є додаткові питання?</a>
         </div>
     </div>
 

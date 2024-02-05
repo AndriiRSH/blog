@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Post\StoreRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class StoreController extends BaseController
@@ -14,6 +15,7 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
         $this->service->store($data);
+
         return redirect()->route('admin.post.index');
     }
 }
