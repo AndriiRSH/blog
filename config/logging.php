@@ -57,9 +57,15 @@ return [
             'ignore_exceptions' => false,
         ],
 
-        'single' => [
+        'file_errors' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'file_info' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/alert-laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 

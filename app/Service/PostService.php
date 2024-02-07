@@ -24,7 +24,7 @@ class PostService
             $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
             $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
 //            var_dump($data['content']);
-
+//            $data['user_id'] = Auth::id();
             // якщо хочемо, дати можливість додання поста без тегів
             //$post->tags()->sync((isset($data['tag_ids']))? $data['tag_ids'] : []);
             $post = Post::firstOrCreate($data);
@@ -34,7 +34,8 @@ class PostService
             }
             DB::commit();
         } catch (\Exception $exception){
-            Log::error($exception->getMessage());
+//            Log::error('Error in store method: ' . $exception->getMessage());
+            Log::channel('file_errors')->error('Error in store method: ' . $exception->getMessage());
             DB::rollBack();
             abort(500);
         }
@@ -65,6 +66,8 @@ class PostService
             }
             DB::commit();
         } catch (\Exception $exception){
+//            Log::error('Error in store method: ' . $exception->getMessage());
+            Log::channel('file_errors')->error('Error in update method: ' . $exception->getMessage());
             DB::rollBack();
             abort(500);
         }

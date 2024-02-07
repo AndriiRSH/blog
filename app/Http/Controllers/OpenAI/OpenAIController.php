@@ -5,6 +5,7 @@ namespace App\Http\Controllers\OpenAI;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\Log;
 
 class OpenAIController extends Controller
 {
@@ -20,21 +21,27 @@ class OpenAIController extends Controller
 
     public function store(Request $request)
     {
-        $messages = $request->session()->get('messages',[
-           ['role' => 'system', 'content' => 'You are GPT Laravel clone']
-        ]);
 
-        $messages[] = ['role' => 'user', 'content' => $request->input('message')];
+        try {
+            $messages = $request->session()->get('messages',[
+                ['role' => 'system', 'content' => 'You are GPT Laravel clone']
+            ]);
 
-        $response = OpenAI::chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => $messages
-        ]);
+            $messages[] = ['role' => 'user', 'content' => $request->input('message')];
 
-        $messages[] = ['role' => 'assistant', 'content' => $response->choices[0]->
-        message->content];
-        $request->session()->put('messages', $messages);
-        return redirect()->route('openai.index');
+            $response = OpenAI::chat()->create([
+                'model' => 'gpt-3.5-turbo',
+                'messages' => $messages
+            ]);
+
+            $messages[] = ['role' => 'assistant', 'content' => $response->choices[0]->message->content];
+            $request->session()->put('messages', $messages);
+            return redirect()->route('openai.index');
+        } catch (\Exception $e) {
+//            Log::alert('Error in OpenAIController@store: ' . $e->getMessage());
+            Log::channel('file_info')->alert('Error in OpenAIController@store: ' . $e->getMessage());
+            return back()->with('error', 'An error occurred while processing your request.');
+        }
     }
 
     public function destroy(Request $request){
