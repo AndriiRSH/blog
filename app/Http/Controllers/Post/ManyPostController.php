@@ -28,7 +28,8 @@ class ManyPostController extends Controller
         });
 
 //        $posts = Post::paginate(6);
-        $randomPosts = Post::get()->random(4);
+//        $randomPosts = Post::get()->random(4);
+        $randomPosts = Post::inRandomOrder()->limit(min(4, Post::count()))->get();
         $likedPostes = Post::withCount('likedUsers')->orderBy('liked_users_count', 'DESC')->get()->take(4);
         $categories = Category::all();
         return view('post.index', compact('posts', 'randomPosts', 'likedPostes', 'categories', 'weatherData'));
