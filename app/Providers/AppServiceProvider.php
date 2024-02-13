@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale('uk-UA');
         Paginator::useBootstrap();
+        Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
     }
 }

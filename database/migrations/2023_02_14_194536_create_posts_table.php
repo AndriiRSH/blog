@@ -18,12 +18,14 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->unsignedBigInteger('category_id')->nullable();
+
+//            $table->foreign('category_id', 'post_category_fk')->on('categories')->references('id');
             $table->timestamps();
+        });
 
+        Schema::table('posts', function (Blueprint $table) {
             $table->index('category_id', 'post_category_idx');
-            $table->foreign('category_id', 'post_category_fk')->on('categories')->references('id');
-
-
+            $table->foreign('category_id', 'post_category_fk')->references('id')->on('categories');
         });
     }
 
@@ -34,6 +36,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign('post_category_fk');
+        });
+
         Schema::dropIfExists('posts');
     }
 };

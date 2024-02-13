@@ -21,24 +21,22 @@ class OpenAIController extends Controller
 
     public function store(Request $request)
     {
-
         try {
             $messages = $request->session()->get('messages',[
                 ['role' => 'system', 'content' => 'You are GPT Laravel clone']
             ]);
 
             $messages[] = ['role' => 'user', 'content' => $request->input('message')];
-
+//            dd(1);
             $response = OpenAI::chat()->create([
                 'model' => 'gpt-3.5-turbo',
                 'messages' => $messages
             ]);
-
+            dd($response);
             $messages[] = ['role' => 'assistant', 'content' => $response->choices[0]->message->content];
             $request->session()->put('messages', $messages);
             return redirect()->route('openai.index');
         } catch (\Exception $e) {
-//            Log::alert('Error in OpenAIController@store: ' . $e->getMessage());
             Log::channel('file_info')->alert('Error in OpenAIController@store: ' . $e->getMessage());
             return back()->with('error', 'An error occurred while processing your request.');
         }

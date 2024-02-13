@@ -4,6 +4,9 @@
 <main class="blog">
     <div class="container">
         <h1 class="edica-page-title" data-aos="fade-up">@lang('main.blog')</h1>
+        <h2>Weather Information for {{ $weatherData['name'] }}</h2>
+        <p>Temperature: {{ $weatherData['main']['temp'] }} &#8451;</p>
+        <p>Weather: {{ $weatherData['weather'][0]['description'] }}</p>
         <section class="featured-posts-section">
             <div class="row">
                 @foreach($posts as $post)
