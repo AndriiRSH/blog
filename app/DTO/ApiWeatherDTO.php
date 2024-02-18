@@ -4,8 +4,7 @@ namespace App\DTO;
 
 class ApiWeatherDTO
 {
-    public $lat;
-    public $lon;
+
     public $weatherData;
 
 //    public function __construct($lat, $lon, $weatherData)
