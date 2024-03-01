@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Locale\LocaleController;
 use App\Http\Controllers\OpenAI\OpenAIController;
+use App\Http\Controllers\Stripe\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\IndexController;
 use App\Http\Controllers\Category\IndexController as IndexCategory;
@@ -185,5 +186,19 @@ Route::middleware(['auth', 'admin',])->group(function () {
         });
     });
 });
+
+//Route::get('stripe',[StripePaymentController::class,'paymentStripe'])->name('addmoney.paymentstripe');
+//Route::post('add-money-stripe',[StripePaymentController::class,'postPaymentStripe'])->name('addmoney.stripe');
+
+Route::get('/checkout', [StripePaymentController::class,'checkout'])->name('checkout');
+Route::post('/session', [StripePaymentController::class,'session'])->name('session');
+//Route::get('/success', [StripePaymentController::class,'success'])->name('success');
+Route::post('/webhook', [StripePaymentController::class,'webhook'])->name('webhook');
+
+Route::middleware(['paymentStatus'])->group(function () {
+    Route::get('/success', [StripePaymentController::class, 'success'])->name('success');
+});
+
+
 
 Auth::routes(['verify' => true]);

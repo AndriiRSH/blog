@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => AdminMiddleware::class,
         'set_locale' => SetLocale::class,
+        'paymentStatus' => \App\Http\Middleware\PaymentStatusMiddleware::class,
     ];
 }
